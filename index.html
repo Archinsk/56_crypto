@@ -10,7 +10,31 @@
       integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
       crossorigin="anonymous"
     />
+    <script language="javascript" src="es6-promise.min.js"></script>
+    <script language="javascript" src="es6-promise.min.js"></script>
+    <script language="javascript">
+      function setExtensionLoadingInfo() {
+        if (document.getElementById('ExtensionEnabledImg'))
+          document.getElementById('ExtensionEnabledImg').setAttribute("src", "green_dot.png");
+        if (document.getElementById('ExtensionEnabledTxt'))
+          document.getElementById('ExtensionEnabledTxt').innerHTML = "Расширение загружено";
+        if (document.getElementById('PluginEnabledImg'))
+          document.getElementById('PluginEnabledImg').setAttribute("src", "red_dot.png");
+        if (document.getElementById('PlugInEnabledTxt'))
+          document.getElementById('PlugInEnabledTxt').innerHTML = "Плагин не загружен";
+        window.cadesplugin_extension_loaded = true;
+      }
+      function extensionLoadedCallback() {
+        window.onload = function (e) {
+          setExtensionLoadingInfo();
+        }
+        setExtensionLoadingInfo();
+      }
+      window.cadesplugin_extension_loaded_callback = extensionLoadedCallback;
+    </script>
     <script language="javascript" src="cadesplugin_api.js"></script>
+    <script language="javascript" src="Code.js"></script>
+<!--    <script type="text/javascript" src="async_code.js"></script>-->
 <!--    <script language="javascript" src="jasper.js"></script>-->
 <!--    <script language="javascript" src="custom.js"></script>-->
 
