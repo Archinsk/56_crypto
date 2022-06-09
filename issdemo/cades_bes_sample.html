@@ -35,78 +35,50 @@
     />
 </head>
 <body>
-    <div id="min-width">
-        <div id="container">
-            <table>
-                <tr>
-                    <td>
-                        <div class="mainContent">
-                            <div id="left-col">
-                                <div id="info">
-
-                                </div>
-                                <p id="info_msg" name="CertificateTitle">Выберите cертификат:</p>
-                                <div id="item_border" name="CertListBoxToHide">
-<!--                                    <select size="8" name="CertListBox" id="CertListBox" style="width:100%;resize:none;border:0;"></select>-->
-                                </div>
-
-                                <p id="info_msg" name="DataToSign">Данные для подписи:</p>
-                                <div id="item_border" name="DataToSignItemBorder">
-                                    <textarea id="DataToSignTxtBox" name="DataToSignTxtBox" style="height:20px;width:100%;resize:none;border:0;">
+<p>Данные для подписи:</p>
+<div id="item_border" name="DataToSignItemBorder">
+                                    <textarea id="DataToSignTxtBox" name="DataToSignTxtBox" style="height:50px;width:100%;resize:none;border:0;">
                                     </textarea>
-                                </div>
-                                <p></p>
-                                <div class="layout">
-                                    <input id="SignBtn" type="button" value="Подписать" name="SignData" onclick="Common_SignCadesBES('CertListBox');" />
-                                </div>
-
-                                <p id="info_msg" name="SignatureTitle">Подпись:</p>
-                                <div id="item_border" name="SignatureTitleItemBorder">
-                                    <textarea id="SignatureTxtBox" readonly style="font-size:9pt;height:600px;width:100%;resize:none;border:0;">
+</div>
+<p>Подписанные данные:</p>
+<textarea id="SignatureTxtBox" readonly style="font-size:9pt;height:100px;width:100%;resize:none;border:0;">
                                     </textarea>
-                                    <script language="javascript">
-                                        var txtDataToSign = "Hello World";
-                                        document.getElementById("DataToSignTxtBox").innerHTML = txtDataToSign;
-                                        document.getElementById("SignatureTxtBox").innerHTML = "";
-                                        var canPromise = !!window.Promise;
-                                        if (isEdge()) {
-                                            ShowEdgeNotSupported();
-                                        } else {
-                                            if (canPromise) {
-                                                cadesplugin.then(function () {
-                                                    Common_CheckForPlugIn();
-                                                },
-                                                    function (error) {
-                                                        if (window.cadesplugin_extension_loaded) {
-                                                            document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");
-                                                            document.getElementById('PlugInEnabledTxt').innerHTML = error;
-                                                        }
-                                                    }
-                                                );
-                                            } else {
-                                                window.addEventListener("message", function (event) {
-                                                    if (event.data == "cadesplugin_loaded") {
-                                                        CheckForPlugIn_NPAPI();
-                                                    } else if (event.data == "cadesplugin_load_error") {
-                                                        if (window.cadesplugin_extension_loaded) {
-                                                            document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");
-                                                            document.getElementById('PlugInEnabledTxt').innerHTML = "Плагин не загружен";
-                                                        }
-                                                    }
-                                                },
-                                                    false);
-                                                window.postMessage("cadesplugin_echo_request", "*");
-                                            }
-                                        }
-                                    </script>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </div>
+<script language="javascript">
+    var txtDataToSign = "Hello World";
+    document.getElementById("DataToSignTxtBox").innerHTML = txtDataToSign;
+    document.getElementById("SignatureTxtBox").innerHTML = "";
+    var canPromise = !!window.Promise;
+    if (isEdge()) {
+        ShowEdgeNotSupported();
+    } else {
+        if (canPromise) {
+            cadesplugin.then(function () {
+                    Common_CheckForPlugIn();
+                },
+                function (error) {
+                    if (window.cadesplugin_extension_loaded) {
+                        document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");
+                        document.getElementById('PlugInEnabledTxt').innerHTML = error;
+                    }
+                }
+            );
+        } else {
+            window.addEventListener("message", function (event) {
+                    if (event.data == "cadesplugin_loaded") {
+                        CheckForPlugIn_NPAPI();
+                    } else if (event.data == "cadesplugin_load_error") {
+                        if (window.cadesplugin_extension_loaded) {
+                            document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");
+                            document.getElementById('PlugInEnabledTxt').innerHTML = "Плагин не загружен";
+                        }
+                    }
+                },
+                false);
+            window.postMessage("cadesplugin_echo_request", "*");
+        }
+    }
+</script>
+
     <div id="app">
         <div class="page-wrapper">
             <main class="content">
@@ -198,8 +170,10 @@
                                     Отмена</button
                                 ><button
                                     data-v-109035ba=""
+                                    id="SignBtn"
                                     type="button"
                                     class="btn btn-primary"
+                                    onclick="Common_SignCadesBES('CertListBox');"
                             >
                                 Подписать
                             </button>
