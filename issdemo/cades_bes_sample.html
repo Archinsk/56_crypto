@@ -24,8 +24,8 @@
 <!--        }-->
 <!--        window.cadesplugin_extension_loaded_callback = extensionLoadedCallback;-->
 <!--    </script>-->
-    <script language="javascript" src="../cadesplugin_api.js"></script>
-    <script language="javascript" src="Code.js"></script>
+<!--    <script language="javascript" src="../cadesplugin_api.js"></script>-->
+<!--    <script language="javascript" src="Code.js"></script>-->
 
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
@@ -39,13 +39,14 @@
             <main class="content">
                 <div data-v-109035ba="" class="container py-2" theme="primary" user="[object Object]" >
                     <div class="text-center">
-                        <button class="btn btn-info" onclick="CheckForPlugIn_AsyncJasperSignature()">Check Plugin</button>
+                        <button class="btn btn-info" data-toggle="modal" data-target="#signatureModal" onclick="CheckForPlugIn_AsyncJasperSignature()">Печать с подписью</button>
                     </div>
 
+                    <div class="modal fade" id="signatureModal" tabindex="-1" aria-labelledby="signatureModalLabel" aria-hidden="true">
                     <div data-v-109035ba="" class="modal-dialog modal-xl">
                         <div data-v-109035ba="" class="modal-content">
                             <div data-v-109035ba="" class="modal-header">
-                                <h5 data-v-109035ba="" id="exampleModalLabel" class="modal-title" >Подпись файла</h5>
+                                <h5 data-v-109035ba="" id="signatureModalLabel" class="modal-title" >Подпись файла</h5>
                                 <button data-v-109035ba="" type="button" data-dismiss="modal" aria-label="Close" class="close" >
                                     <span data-v-109035ba="" aria-hidden="true">×</span>
                                 </button>
@@ -55,6 +56,7 @@
                                 <select name="CertListBox" id="CertListBox" class="form-control"></select>
                                 <div class="row">
                                     <div class="col-6" id="cryptoProStatusDiv" style="margin-top: 1rem;">
+                                        <h2>Информация о программном обеспечении</h2>
                                         <div id="info_msg">
                                             <span id="ExtensionEnabledTxt">Расширение не загружено</span>
                                             <img src="Img/red_dot.png" width="10" height="10" alt="Расширение не загружено" id="ExtensionEnabledImg" />
@@ -101,6 +103,7 @@
                             </div>
                         </div>
                     </div>
+                    </div>
                 </div>
             </main>
         </div>
@@ -112,41 +115,43 @@
     </div>
     <p>Подписанные данные:</p>
     <textarea id="SignatureTxtBox" readonly style="font-size:9pt;height:100px;width:100%;resize:none;border:0;"></textarea>
-    <script language="javascript">
-        var txtDataToSign = "Hello World";
-        document.getElementById("DataToSignTxtBox").innerHTML = txtDataToSign;
-        document.getElementById("SignatureTxtBox").innerHTML = "";
-        var canPromise = !!window.Promise;
-        if (isEdge()) {
-            ShowEdgeNotSupported();
-        } else {
-            if (canPromise) {
-                cadesplugin.then(function () {
-                        Common_CheckForPlugIn();
-                    },
-                    function (error) {
-                        if (window.cadesplugin_extension_loaded) {
-                            document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");
-                            document.getElementById('PlugInEnabledTxt').innerHTML = error;
-                        }
-                    }
-                );
-            } else {
-                window.addEventListener("message", function (event) {
-                        if (event.data == "cadesplugin_loaded") {
-                            CheckForPlugIn_NPAPI();
-                        } else if (event.data == "cadesplugin_load_error") {
-                            if (window.cadesplugin_extension_loaded) {
-                                document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");
-                                document.getElementById('PlugInEnabledTxt').innerHTML = "Плагин не загружен";
-                            }
-                        }
-                    },
-                    false);
-                window.postMessage("cadesplugin_echo_request", "*");
-            }
-        }
-    </script>
+<!--    <script language="javascript">-->
+<!--        var txtDataToSign = "Hello World";-->
+<!--        document.getElementById("DataToSignTxtBox").innerHTML = txtDataToSign;-->
+<!--        document.getElementById("SignatureTxtBox").innerHTML = "";-->
+<!--        var canPromise = !!window.Promise;-->
+<!--        if (isEdge()) {-->
+<!--            ShowEdgeNotSupported();-->
+<!--        } else {-->
+<!--            if (canPromise) {-->
+<!--                cadesplugin.then(function () {-->
+<!--                        Common_CheckForPlugIn();-->
+<!--                    },-->
+<!--                    function (error) {-->
+<!--                        if (window.cadesplugin_extension_loaded) {-->
+<!--                            document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");-->
+<!--                            document.getElementById('PlugInEnabledTxt').innerHTML = error;-->
+<!--                        }-->
+<!--                    }-->
+<!--                );-->
+<!--            } else {-->
+<!--                window.addEventListener("message", function (event) {-->
+<!--                        if (event.data == "cadesplugin_loaded") {-->
+<!--                            CheckForPlugIn_NPAPI();-->
+<!--                        } else if (event.data == "cadesplugin_load_error") {-->
+<!--                            if (window.cadesplugin_extension_loaded) {-->
+<!--                                document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");-->
+<!--                                document.getElementById('PlugInEnabledTxt').innerHTML = "Плагин не загружен";-->
+<!--                            }-->
+<!--                        }-->
+<!--                    },-->
+<!--                    false);-->
+<!--                window.postMessage("cadesplugin_echo_request", "*");-->
+<!--            }-->
+<!--        }-->
+<!--    </script>-->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
 </body>
 <!--<script language="javascript" src="highlight.js"></script>-->
 <!--<script language="javascript">-->
