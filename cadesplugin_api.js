@@ -1,4 +1,6 @@
 ;(function () {
+    console.log("---Точка 2");
+    console.log("---Загрузка CAdES API");
     //already loaded
     if(window.cadesplugin)
         return;
@@ -45,6 +47,11 @@
         return {name:M[0],version:M[1]};
     }
     var browserSpecs = check_browser();
+    console.log("---Точка 2.1");
+    console.log("---Проверка браузера");
+    console.log(browserSpecs);
+    console.log("---Текущий cadesplugin:");
+    console.log(cadesplugin);
 
     function cpcsp_console_log(level, msg){
         //IE9 не может писать в консоль если не открыта вкладка developer tools
@@ -500,6 +507,8 @@
 
     function nmcades_api_onload() {
         if (!isIE() && !isFireFox && !isSafari) {
+            console.log("---Точка 2.3.1.3");
+            console.log("---Запуск колбэка extensionLoading в случае успешной загрузки расширения для Хрома");
             if (window.cadesplugin_extension_loaded_callback)
                 window.cadesplugin_extension_loaded_callback();
         }
@@ -549,6 +558,8 @@
                 fileref.onload = nmcades_api_onload;
                 document.getElementsByTagName("head")[0].appendChild(fileref);
             } else {
+                console.log("---Точка 2.3.1.1");
+                console.log("---Загрузка расширения для Хрома");
                 // для Chrome, Chromium, Chromium Edge расширение из Chrome store
                 var fileref = document.createElement('script');
                 fileref.setAttribute("type", "text/javascript");
@@ -556,6 +567,8 @@
                 fileref.onerror = plugin_loaded_error;
                 fileref.onload = nmcades_api_onload;
                 document.getElementsByTagName("head")[0].appendChild(fileref);
+                console.log("---Точка 2.3.1.2");
+                console.log("---В Head добавлен скрипт расширения для Хрома");
             }
         }
     }
@@ -664,6 +677,8 @@
     //Проверяем работает ли плагин
     function check_plugin_working()
     {
+        console.log("---Точка 2.3.1");
+        console.log("---На входе в check_plugin_working");
         var div = document.createElement("div");
         div.innerHTML = "<!--[if lt IE 9]><i></i><![endif]-->";
         var isIeLessThan9 = (div.getElementsByTagName("i").length === 1);
@@ -738,8 +753,24 @@
     }
 
     set_constantValues();
+    console.log("---Точка 2.2");
+    console.log("---Установка констант cades-плагина");
+    console.log(cadesplugin);
 
     cadesplugin.current_log_level = cadesplugin.LOG_LEVEL_ERROR;
     window.cadesplugin = cadesplugin;
+    console.log("---Точка 2.3");
+    console.log("---Проверка работы плагина");
     check_plugin_working();
 }());
+
+// Выполняется проверка спецификации браузера "check_browser()"
+// Объекту cadesplugin задаются константы и методы "set_constantValues()"
+// Выполняется проверка работы плагина "check_plugin_working()",
+//     в процессе его работы загружается браузерное расширение load_extension(),
+//         при успешной загрузке расширения запускается nmcades_api_onload(),
+//             которое вызывает промис window.cadesplugin_extension_loaded_callback() из extensionLoading.js
+
+
+
+

@@ -1,3 +1,6 @@
+console.log("---Точка 3");
+console.log("---Загрузка сертификатов (Code.js)");
+
 var isPluginEnabled = false;
 var fileContent; // Переменная для хранения информации из файла, значение присваивается в cades_bes_file.html
 var global_selectbox_container = new Array();
@@ -138,6 +141,7 @@ function Common_CheckForPlugIn() {
     var canAsync = !!cadesplugin.CreateObjectAsync;
     if(canAsync)
     {
+        console.log("Могу асинхронно");
         include_async_code().then(function(){
             return CheckForPlugIn_Async();
         });
@@ -208,9 +212,9 @@ function FillCertInfo_NPAPI(certificate, certBoxId, isFromContainer)
     //если попадется сертификат с неизвестным алгоритмом
     //тут будет исключение. В таком сертификате просто пропускаем такое поле
     try {
-        IsValid = certificate.IsValid().Result;    
+        IsValid = certificate.IsValid().Result;
     } catch (e) {
-        
+
     }
     var hasPrivateKey = certificate.HasPrivateKey();
     var Now = new Date();
@@ -227,7 +231,7 @@ function FillCertInfo_NPAPI(certificate, certBoxId, isFromContainer)
             var privateKeyLink = certObj.GetPrivateKeyLink();
             document.getElementById(field_prefix + "privateKeyLink").innerHTML = "Ссылка на закрытый ключ: <b>" + privateKeyLink + "<b>";
         } catch (e) {
-            document.getElementById(field_prefix + "privateKeyLink").innerHTML = "Ссылка на закрытый ключ: <b> Набор ключей не существует<b>";    
+            document.getElementById(field_prefix + "privateKeyLink").innerHTML = "Ссылка на закрытый ключ: <b> Набор ключей не существует<b>";
         }
     } else {
         document.getElementById(field_prefix + "provname").innerHTML = "Криптопровайдер:<b>";
@@ -396,13 +400,13 @@ function MakeXMLSign_NPAPI(dataToSign, certObject, signatureType) {
         errormes = "Данная демо страница поддерживает XML подпись сертификатами с алгоритмом ГОСТ Р 34.10-2012, ГОСТ Р 34.10-2001";
         throw errormes;
     }
-    
+
     var CADESCOM_XML_SIGNATURE_TYPE_ENVELOPED = 0|signatureType;
     if (signatureType > cadesplugin.CADESCOM_XADES_BES) {
         var tspService = document.getElementById("TSPServiceTxtBox").value;
         oSigner.TSAAddress = tspService;
     }
-    
+
     try {
         var oSignedXML = cadesplugin.CreateObject("CAdESCOM.SignedXML");
     } catch (err) {
@@ -931,7 +935,7 @@ function FillCertList_NPAPI(lstId) {
         oStore.Close();
     }
 
-    //В версии плагина 2.0.13292+ есть возможность получить сертификаты из 
+    //В версии плагина 2.0.13292+ есть возможность получить сертификаты из
     //закрытых ключей и не установленных в хранилище
     try {
         oStore.Open(cadesplugin.CADESCOM_CONTAINER_STORE);
@@ -1032,9 +1036,9 @@ function CreateCertRequest_NPAPI()
         cert_req = Enroll.CreateRequest(0x1);
     } catch (e) {
         alert('Failed to generate KeyPair or reguest: ' + cadesplugin.getLastError(e));
-        return;    
+        return;
     }
-    
+
     return cert_req;
 }
 
