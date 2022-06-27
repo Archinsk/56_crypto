@@ -52,6 +52,8 @@ function include_async_code()
         async_resolve = resolve;
     });
     async_code_included = 1;
+    console.log("---Точка 3.2");
+    console.log('---Ссылка на скрипт "async_code.js" добавлена в head');
     return async_Promise;
 }
 
@@ -137,16 +139,19 @@ function Common_SignCadesXML(id, signatureType)
 }
 
 function Common_CheckForPlugIn() {
+    console.log("---Точка 3.1");
+    console.log('---Запуск проверки плагина в "Code.js"');
     cadesplugin.set_log_level(cadesplugin.LOG_LEVEL_DEBUG);
     var canAsync = !!cadesplugin.CreateObjectAsync;
     if(canAsync)
     {
-        console.log("Могу асинхронно");
         include_async_code().then(function(){
+            console.log("---Точка 3.1.1");
             return CheckForPlugIn_Async();
         });
     }else
     {
+        console.log("---Точка 3.1.2");
         return CheckForPlugIn_NPAPI();
     }
 }
@@ -1414,3 +1419,4 @@ function ShowPinPadelogin(){
     Common_SignCadesBES('CertListBox',text, 1);
 }
 
+// Добавляет async_code.js в раздел head

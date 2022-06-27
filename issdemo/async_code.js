@@ -1,3 +1,6 @@
+console.log("---Точка 6");
+console.log('---Вход в "async_code.js"');
+
 function CertificateAdjuster()
 {
 }
@@ -57,6 +60,9 @@ CertificateAdjuster.prototype.GetCertInfoString = function(certSubjectName, cert
 }
 
 function CheckForPlugIn_Async() {
+    console.log("---Точка 6.1");
+    console.log('---Запуск асинхорнной проверки плагина в "Code.js"');
+
     function VersionCompare_Async(StringVersion, ObjectVersion)
     {
         if(typeof(ObjectVersion) == "string")

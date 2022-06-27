@@ -23,6 +23,8 @@ function extensionLoadedCallback() {
     console.log("---Точка 1.1");
     console.log('---Вызов "window.cadesplugin_extension_loaded_callback()" из cadesplugin.api');
     setExtensionLoadingInfo();
+    setTimeout(Common_CheckForPlugIn, 200);
+    // Common_CheckForPlugIn();
 }
 window.cadesplugin_extension_loaded_callback = extensionLoadedCallback;
 

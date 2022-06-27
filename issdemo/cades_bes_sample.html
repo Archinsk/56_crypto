@@ -24,7 +24,7 @@
             <main class="content">
                 <div data-v-109035ba="" class="container py-2" theme="primary" user="[object Object]" >
                     <div class="text-center">
-                        <button class="btn btn-info" data-toggle="modal" data-target="#signatureModal" onclick="CheckForPlugIn_AsyncJasperSignature()">Печать с подписью</button>
+                        <button class="btn btn-info" onclick="openModalSignature()">Модалка</button>
                     </div>
 
                     <div class="modal fade" id="signatureModal" tabindex="-1" aria-labelledby="signatureModalLabel" aria-hidden="true">
@@ -38,7 +38,9 @@
                             </div>
                             <div data-v-109035ba="" class="modal-body">
                                 <label for="CertListBox">Выберите сертификат</label>
-                                <select name="CertListBox" id="CertListBox" class="form-control"></select>
+                                <select name="CertListBox" id="CertListBox" class="form-control">
+                                    <option disabled value="" selected>Выбор сертификата</option>
+                                </select>
                                 <div class="row">
                                     <div class="col-6" id="cryptoProStatusDiv" style="margin-top: 1rem;">
                                         <h2>Информация о программном обеспечении</h2>
@@ -92,9 +94,13 @@
 
                     <!--    Временное открытие модального окна для отслеживания изменений-->
                     <script>
-                        console.log("---Точка 4");
-                        console.log("Открытие модального окна");
-                        $('#signatureModal').modal('show');
+                        function openModalSignature() {
+                            console.log("---Точка 4");
+                            console.log("Открытие модального окна");
+                            $('#signatureModal').modal('show');
+                            checkExtension(true);
+                        }
+
                     </script>
                 </div>
             </main>

@@ -1,8 +1,8 @@
-;(function () {
+function checkExtension (needToCheck = false) {
     console.log("---Точка 2");
     console.log("---Загрузка CAdES API");
     //already loaded
-    if(window.cadesplugin)
+    if(window.cadesplugin && !needToCheck)
         return;
 
     var pluginObject;
@@ -761,9 +761,13 @@
     window.cadesplugin = cadesplugin;
     console.log("---Точка 2.3");
     console.log("---Проверка работы плагина");
-    check_plugin_working();
-}());
 
+    if (needToCheck) {
+        check_plugin_working();
+    }
+};
+
+checkExtension();
 // Выполняется проверка спецификации браузера "check_browser()"
 // Объекту cadesplugin задаются константы и методы "set_constantValues()"
 // Выполняется проверка работы плагина "check_plugin_working()",

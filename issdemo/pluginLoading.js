@@ -9,14 +9,14 @@ if (isEdge()) {
     ShowEdgeNotSupported();
 } else {
     if (canPromise) {
-        console.log("Могу промис");
         cadesplugin.then(function () {
-                console.log("Проверяю плагин");
+                console.log("---Точка 5.1");
+                console.log("---Запуск проверки плагина");
                 Common_CheckForPlugIn();
             },
             function (error) {
                 console.log("Проверка расширения");
-                if (window.cadesplugin_extension_loaded) {
+                if (!window.cadesplugin_extension_loaded) {
                     document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");
                     document.getElementById('PlugInEnabledTxt').innerHTML = error;
                 }
@@ -37,3 +37,5 @@ if (isEdge()) {
         window.postMessage("cadesplugin_echo_request", "*");
     }
 }
+
+// Установка в поле исходной информации текста "Hello World" и очистка поля для вывода подписи
