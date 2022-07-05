@@ -9,7 +9,7 @@
 
 
     <script language="javascript" src="extensionLoading.js"></script>
-    <script language="javascript" src="../cadesplugin_api.js"></script>
+    <script language="javascript" src="cadesplugin_api.js"></script>
     <script language="javascript" src="Code.js"></script>
 
     <link rel="stylesheet"
@@ -39,7 +39,7 @@
                             <div data-v-109035ba="" class="modal-body">
                                 <label for="CertListBox">Выберите сертификат</label>
                                 <select name="CertListBox" id="CertListBox" class="form-control">
-                                    <option disabled value="" selected>Выбор сертификата</option>
+<!--                                    <option disabled value="" selected>Выбор сертификата</option>-->
                                 </select>
                                 <div class="row">
                                     <div class="col-6" id="cryptoProStatusDiv" style="margin-top: 1rem;">
@@ -83,6 +83,53 @@
                                         <p class="info_field" id="location"></p>
                                     </div>
                                 </div>
+
+                                <p id="info_msg" name="DataToSign" style="display: block;">Данные для подписи:</p>
+                                <div id="item_border" name="DataToSignItemBorder" style="display: block;">
+                                    <textarea id="DataToSignTxtBox" name="DataToSignTxtBox" style="height: 20px; width: 100%; resize: none; border: 0px; display: block;">Hello World</textarea>
+                                </div>
+                                <p>Подписанные данные:</p>
+                                <textarea id="SignatureTxtBox" readonly style="font-size:9pt;height:100px;width:100%;resize:none;border:0;"></textarea>
+
+                                <p id="info_msg" name="SignatureTitle" style="display: none;">Подпись:</p>
+                                <div id="item_border" name="SignatureTitleItemBorder" style="display: none;">
+                                    <textarea id="SignatureTxtBox" readonly="" style="font-size:9pt;height:600px;width:100%;resize:none;border:0;"></textarea>
+                                    <script language="javascript">
+                                        var txtDataToSign = "Hello World";
+                                        document.getElementById("DataToSignTxtBox").innerHTML = txtDataToSign;
+                                        document.getElementById("SignatureTxtBox").innerHTML = "";
+                                        var canPromise = !!window.Promise;
+                                        if (isEdge()) {
+                                            ShowEdgeNotSupported();
+                                        } else {
+                                            if (canPromise) {
+                                                cadesplugin.then(function () {
+                                                        Common_CheckForPlugIn();
+                                                    },
+                                                    function (error) {
+                                                        if (window.cadesplugin_extension_loaded) {
+                                                            document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");
+                                                            document.getElementById('PlugInEnabledTxt').innerHTML = error;
+                                                        }
+                                                    }
+                                                );
+                                            } else {
+                                                window.addEventListener("message", function (event) {
+                                                        if (event.data == "cadesplugin_loaded") {
+                                                            CheckForPlugIn_NPAPI();
+                                                        } else if (event.data == "cadesplugin_load_error") {
+                                                            if (window.cadesplugin_extension_loaded) {
+                                                                document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");
+                                                                document.getElementById('PlugInEnabledTxt').innerHTML = "Плагин не загружен";
+                                                            }
+                                                        }
+                                                    },
+                                                    false);
+                                                window.postMessage("cadesplugin_echo_request", "*");
+                                            }
+                                        }
+                                    </script>
+                                </div>
                             </div>
                             <div data-v-109035ba="" class="modal-footer">
                                 <button data-v-109035ba="" type="button" data-dismiss="modal" class="btn btn-secondary">Отмена</button>
@@ -107,12 +154,7 @@
         </div>
     </div>
 
-    <p>Данные для подписи:</p>
-    <div id="item_border" name="DataToSignItemBorder">
-        <textarea id="DataToSignTxtBox" name="DataToSignTxtBox" style="height:50px;width:100%;resize:none;border:0;"></textarea>
-    </div>
-    <p>Подписанные данные:</p>
-    <textarea id="SignatureTxtBox" readonly style="font-size:9pt;height:100px;width:100%;resize:none;border:0;"></textarea>
+
     <script language="javascript" src="pluginLoading.js"></script>
 </body>
 </html>

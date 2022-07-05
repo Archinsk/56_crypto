@@ -159,6 +159,8 @@ function CheckForPlugIn_Async() {
 }
 
 function onCertificateSelected(event) {
+    console.log("----- Выбор сертификата в async_code.js onCertificateSelected(event)");
+    console.log(event);
     cadesplugin.async_spawn(function *(args) {
         var selectedCertID = args[0][args[0].selectedIndex].value;
         var certificate = global_selectbox_container[selectedCertID];
@@ -240,7 +242,7 @@ function FillCertList_Async(lstId) {
             yield oStore.Close();
         }
 
-        //В версии плагина 2.0.13292+ есть возможность получить сертификаты из 
+        //В версии плагина 2.0.13292+ есть возможность получить сертификаты из
         //закрытых ключей и не установленных в хранилище
         try {
             yield oStore.Open(cadesplugin.CADESCOM_CONTAINER_STORE);
@@ -653,7 +655,7 @@ function SignCadesXML_Async(certListBoxId, signatureType) {
                 errormes = "Данная демо страница поддерживает XML подпись сертификатами с алгоритмом ГОСТ Р 34.10-2012, ГОСТ Р 34.10-2001";
                 throw errormes;
             }
-            
+
             var CADESCOM_XML_SIGNATURE_TYPE_ENVELOPED = 0|arg[1]; //arg[1] = signatureType
             if (arg[1] > cadesplugin.CADESCOM_XADES_BES ) {
                 var tspService = document.getElementById("TSPServiceTxtBox").value ;
@@ -687,6 +689,10 @@ function SignCadesXML_Async(certListBoxId, signatureType) {
 
 function FillCertInfo_Async(certificate, certBoxId, isFromContainer)
 {
+    console.log("----- Запуск async_code.js FillCertInfo_Async(certificate, certBoxId, isFromContainer)");
+    console.log(certificate);
+    console.log(certBoxId);
+    console.log(isFromContainer);
     var BoxId;
     var field_prefix;
     if(typeof(certBoxId) == 'undefined' || certBoxId == "CertListBox")
@@ -705,6 +711,10 @@ function FillCertInfo_Async(certificate, certBoxId, isFromContainer)
     }
     cadesplugin.async_spawn (function*(args) {
         var Adjust = new CertificateAdjuster();
+        console.log("----- Выполнение cadesplugin.async_spawn()")
+        console.log(Adjust);
+        console.log(Adjust.GetCertName(yield args[0].SubjectName));
+        console.log("----------");
 
         var ValidToDate = new Date((yield args[0].ValidToDate));
         var ValidFromDate = new Date((yield args[0].ValidFromDate));
@@ -758,7 +768,7 @@ function FillCertInfo_Async(certificate, certBoxId, isFromContainer)
 
         if(args[3])
         {
-            document.getElementById(field_prefix + "location").innerHTML = "Установлен в хранилище: <b>Нет</b>";            
+            document.getElementById(field_prefix + "location").innerHTML = "Установлен в хранилище: <b>Нет</b>";
         } else {
             document.getElementById(field_prefix + "location").innerHTML = "Установлен в хранилище: <b>Да</b>";
         }
@@ -975,14 +985,14 @@ function RetrieveCertificate_Async()
             alert('Failed to create X509Enrollment.CX509Enrollment: ' + cadesplugin.getLastError(e));
             return;
         }
-        
+
         var cert_req;
         try {
             yield Enroll.InitializeFromRequest(CertificateRequestPkcs10);
             cert_req = yield Enroll.CreateRequest(0x1);
         } catch (e) {
             alert('Failed to generate KeyPair or reguest: ' + cadesplugin.getLastError(e));
-            return;    
+            return;
         }
 
         var params = 'CertRequest=' + encodeURIComponent(cert_req) +
