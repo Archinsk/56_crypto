@@ -711,11 +711,6 @@ function FillCertInfo_Async(certificate, certBoxId, isFromContainer)
     }
     cadesplugin.async_spawn (function*(args) {
         var Adjust = new CertificateAdjuster();
-        console.log("----- Выполнение cadesplugin.async_spawn()")
-        console.log(Adjust);
-        console.log(Adjust.GetCertName(yield args[0].SubjectName));
-        console.log("----------");
-
         var ValidToDate = new Date((yield args[0].ValidToDate));
         var ValidFromDate = new Date((yield args[0].ValidFromDate));
         var Validator;
@@ -730,6 +725,19 @@ function FillCertInfo_Async(certificate, certBoxId, isFromContainer)
         }
         var hasPrivateKey = yield args[0].HasPrivateKey();
         var Now = new Date();
+
+        console.log("----- Выполнение cadesplugin.async_spawn()");
+        console.log(args);
+        console.log(Adjust);
+        console.log(certificate);
+        console.log(certBoxId);
+        console.log(isFromContainer);
+        window.dataToSign = {};
+        window.dataToSign.thumbprint = yield args[0].Thumbprint;
+        window.dataToSign.subject = Adjust.GetCertName(yield args[0].SubjectName);
+        window.dataToSign.from = Adjust.GetCertDate(ValidFromDate);
+        window.dataToSign.validDue = Adjust.GetCertDate(ValidToDate);
+        console.log("----------");
 
         document.getElementById(args[1]).style.display = '';
         document.getElementById(args[2] + "subject").innerHTML = "Владелец: <b>" + Adjust.GetCertName(yield args[0].SubjectName) + "<b>";
